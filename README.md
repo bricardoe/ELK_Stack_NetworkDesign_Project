@@ -2,7 +2,7 @@
 
 The files in this repository were used to configure the network depicted below.
 
-![ELK Stack Network Design diagram]images/Elk-Stack-AzureNetworkDesign.png)
+![ELK Stack Network Design diagram]images/Elk-Stack-AzureNetworkDesign.png
 
 These files have been tested and used to generate a live ELK deployment on Azure. They can be used to either recreate the entire deployment pictured above. Alternatively, select portions of the ELK playbook file may be used to install only certain pieces of it, such as Filebeat/Metricbeat.
 
@@ -69,7 +69,6 @@ What does Metricbeat record?
 - Metricbeat takes the metrics and statistics that it collects and sends them to the output that you specify, such as Elasticsearch or Logstash.
 
 The configuration details of each machine may be found below.
-_Note: Use the [Markdown Table Generator](http://www.tablesgenerator.com/markdown_tables) to add/remove values from the table_.
 
 | Name             | Function                                                     | IP Address                          | Operating System |
 |------------------|--------------------------------------------------------------|-------------------------------------|------------------|
@@ -113,9 +112,8 @@ A summary of the access policies in place can be found in the table below:
 Ansible was used to automate configuration of the ELK machine. No configuration was performed manually, which is advantageous because...
 
 What is the main advantage of automating configuration with Ansible?
- -  The main advantage of automating configuration with Ansible is it simplifies complex tasks and  reduces repetitive system administration.
-	It frees up time and increases efficiency. No special coding skills are necessary to use Ansible's playbooks and most of all it's a free open-source tool.
-
+ -  The main advantage of automating configuration with Ansible is it simplifies complex tasks such as reducing repetitive system administration which frees up time and increases efficiency. 
+	
 The playbook implements the following tasks:
 In 3-5 bullets, explain the steps of the ELK installation play. E.g., install Docker; download image; etc._
 
@@ -165,7 +163,7 @@ These are the following steps of the ELK installation playbook:
 
 The following screenshot displays the result of running `docker ps` after successfully configuring the ELK instance.
 
-![Screenshot of docker ps output](images/screenshot-docker-ps.png)
+![Screenshot of docker ps output]images/screenshot-docker-ps.png
 
 Last login: Sat Sep 18 16:17:50 2021 from 10.0.0.4
 redsysadmin@Elk-Srv-1:~$ sudo docker ps
@@ -176,7 +174,6 @@ CONTAINER ID   IMAGE          COMMAND                  CREATED          STATUS  
 ### Target Machines & Beats
 This ELK server is configured to monitor the following machines:
 
-List the IP addresses of the machines you are monitoring
 - Web-1 : 10.0.0.5
 - Web-2 : 10.0.0.6
 - Web-3 : 10.0.0.7
@@ -184,7 +181,6 @@ List the IP addresses of the machines you are monitoring
 
 We have installed the following Beats on these machines:
 
-Specify which Beats you successfully installed:
 - FileBeat and MetricBeat
 
 These Beats allow us to collect the following information from each machine:
@@ -211,18 +207,20 @@ Which URL do you navigate to in order to check that the ELK server is running?
 - Run the playbook, and navigate to the public IP via the published port to allow Web traffic http://104.21013.226:5601/ to check that the installation worked as expected.
 
 
-_As a **Bonus**, provide the specific commands the user will need to run to download the playbook, update the files, etc._
+
+
+As a **Bonus**, provide the specific commands the user will need to run to download the playbook, update the files, etc.
 
 
 nano /etc/ansible/hosts command is used to edit the hosts file to ensure that the private IP of elk server is added to the ansible hosts file under the elk/elkservers group
 
 Downloaded the below config files to ensure the remote user is added and provide connectivity to the ELK Stack.
 
-root@2bbd6b84f9ec:/etc/ansible# curl https://gist.githubusercontent.com/slape/5cc350109583af6cbe577bbcc0710c93/raw/eca603b72586fbe148c11f9c87bf96a63cb25760/Filebeat > filebeat-config.yml
+root@2bbd6b84f9ec:/etc/ansible# curl https://gist.githubusercontent.com/slape/5cc350109583af6cbe577bbcc0710c93/raw/eca603b72586fbe148c11f9c87bf96a63cb25760/Filebeat > /etc/ansible/files/filebeat-config.yml
   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
                                  Dload  Upload   Total   Spent    Left  Speed
 100 73112  100 73112    0     0   460k      0 --:--:-- --:--:-- --:--:--  460k
-root@2bbd6b84f9ec:/etc/ansible#
+
 
 
 root@2bbd6b84f9ec:/etc/ansible# curl -L -O https://gist.githubusercontent.com/slape/58541585cc1886d2e26cd8be557ce04c/raw/0ce2c7e744c54513616966affb5e9d96f5e12f73/metricbeat > /etc/ansible/files/metricbeat-config.yml
