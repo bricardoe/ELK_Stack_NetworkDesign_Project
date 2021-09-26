@@ -2,7 +2,7 @@
 
 The files in this repository were used to configure the network depicted below.
 
-!Images/Elk-Stack-AzureNetworkDesign.png)
+![ELK Stack Network Design diagram]images/Elk-Stack-AzureNetworkDesign.png)
 
 These files have been tested and used to generate a live ELK deployment on Azure. They can be used to either recreate the entire deployment pictured above. Alternatively, select portions of the ELK playbook file may be used to install only certain pieces of it, such as Filebeat/Metricbeat.
 
@@ -71,15 +71,15 @@ What does Metricbeat record?
 The configuration details of each machine may be found below.
 _Note: Use the [Markdown Table Generator](http://www.tablesgenerator.com/markdown_tables) to add/remove values from the table_.
 
-| Name             | Function                                               | IP Address                          | Operating System |
-|------------------|--------------------------------------------------------|-------------------------------------|------------------|
-| Jump Host/Box    | Gateway (with Ansible) to Web/ELK Server(s)            | 10.0.0.4                            | Linux            |
-| Web-1            | Web Server (DVWA Container) with Filebeat / Metricbeat | 10.0.0.5                            | Linux            |
-| Web-2            | Web Server (DVWA Container) with Filebeat / Metricbeat | 10.0.0.6                            | Linux            |
-| Web-3            | Web Server (Redundancy DVWA Container)                 | 10.0.0.7                            | Liinux           |
-| ELK Server       | Elk Stack Container                                    | 10.1.0.4                            | Linux            |
-| Load Balancer    | Balances Web Servers Load                              | 20.85.247.149 (Static External IP)  | Linux            |
-| Local PC/Machine | Access to Jump Host/Box                                | 52.249.188.250 (External/Public IP) | Window/Mac/Linux |
+| Name             | Function                                                     | IP Address                          | Operating System |
+|------------------|--------------------------------------------------------------|-------------------------------------|------------------|
+| Jump Host/Box    | Gateway (with Ansible) to Web/ELK Server(s)                  | 10.0.0.4                            | Linux            |
+| Web-1            | Web Server (DVWA Container) with Filebeat / Metricbeat       | 10.0.0.5                            | Linux            |
+| Web-2            | Web Server (DVWA Container) with Filebeat / Metricbeat       | 10.0.0.6                            | Linux            |
+| Web-3            | Web Server (Redundancy DVWA Container)                       | 10.0.0.7                            | Liinux           |
+| ELK Server       | Elk Stack Container                                          | 10.1.0.4                            | Linux            |
+| Load Balancer    | Distribute the traffic load among Web Servers / pool members | 20.85.247.149 (Static External IP)  | Linux            |
+| Local PC/Machine | Access to Jump Host/Box                                      | 52.249.188.250 (External/Public IP) | Window/Mac/Linux |
 
 
 ### Access Policies
@@ -96,29 +96,37 @@ Which machine did you allow to access your ELK VM?
 What was its IP address?
 - Jump Host/Box IP: 10.0.0.4
 
-A summary of the access policies in place can be found in the table below.
+A summary of the access policies in place can be found in the table below:
 
-| Name     | Publicly Accessible | Allowed IP Addresses |
-|----------|---------------------|----------------------|
-| Jump Box | Yes/No              | 10.0.0.1 10.0.0.2    |
-|          |                     |                      |
-|          |                     |                      |
+| Name          | Publicly Accessible | Allowed IP Addresses                  |
+|---------------|---------------------|---------------------------------------|
+| Jump Host/Box | No                  | Local PC/Machine IP (via SSH port 22) |
+| Web-1         | No                  | 10.0.0.5                              |
+| Web-2         | No                  | 10.0.0.6                              |
+| Web-3         | No                  | 10.0.0.7                              |
+| Load Balancer | No                  | Local PC/machine (via TCP p5601)      |
+| ELK Server    | No                  | Local PC/Machine (via HTTP p80)       |
+
 
 ### Elk Configuration
 
 Ansible was used to automate configuration of the ELK machine. No configuration was performed manually, which is advantageous because...
-- _TODO: What is the main advantage of automating configuration with Ansible?_
+
+What is the main advantage of automating configuration with Ansible?
+ -  The main advantage of automating configuration with Ansible is it simplifies complex tasks and  reduces repetitive system administration.
+	It frees up time and increases efficiency. No special coding skills are necessary to use Ansible's playbooks and most of all it's a free open-source tool.
 
 The playbook implements the following tasks:
 In 3-5 bullets, explain the steps of the ELK installation play. E.g., install Docker; download image; etc._
 
 ~~~ 
-The ELK playbook implements the following required tasks:
+These are the following steps of the ELK installation playbook:
 
-- 1.) The elk config file specify the host IP that will have the ELK Stack installed and the remote username that will have access
-name: Configure Elk VM with Docker
-  hosts: elk
-  remote_user: redsysadmin
+- 1.) The elk config file specify the host IP that will have the ELK Stack installed on and the remote username that will have access
+
+	name: Configure Elk VM with Docker
+	hosts: elk
+	remote_user: redsysadmin
 
    
 - 2.) Install the Docker, pip/pip3 and Python modules required for the ELK Container
@@ -129,6 +137,7 @@ name: Configure Elk VM with Docker
 
    
 - 3.) The VM virtual memory was increased
+
 	- name: Increase virtual memory
     - command: sysctl -w vm.max_map_count=262144
 	- name: Use more memory
@@ -156,7 +165,7 @@ name: Configure Elk VM with Docker
 
 The following screenshot displays the result of running `docker ps` after successfully configuring the ELK instance.
 
-![TODO: Update the path with the name of your screenshot of docker ps output](Images/docker_ps_output.png)
+![Screenshot of docker ps output](images/screenshot-docker-ps.png)
 
 Last login: Sat Sep 18 16:17:50 2021 from 10.0.0.4
 redsysadmin@Elk-Srv-1:~$ sudo docker ps
@@ -199,15 +208,15 @@ Which file do you update to make Ansible run the playbook on a specific machine?
 - Update the /etc/ansible/hosts file to include the ip address of the machine under elk to install the ELK server or webservers to install Filebeat.
 
 Which URL do you navigate to in order to check that the ELK server is running?
-- Run the playbook, and navigate to http://104.21013.226:5601/ to check that the installation worked as expected.
+- Run the playbook, and navigate to the public IP via the published port to allow Web traffic http://104.21013.226:5601/ to check that the installation worked as expected.
 
 
 _As a **Bonus**, provide the specific commands the user will need to run to download the playbook, update the files, etc._
 
 
-nano /etc/ansible/hosts command is used to edit the hosts file to ensure that the private IP of elk server is added to the ansible hosts file under rlk/elkservers group
+nano /etc/ansible/hosts command is used to edit the hosts file to ensure that the private IP of elk server is added to the ansible hosts file under the elk/elkservers group
 
-Download below config files to ensure the remote user is added.
+Downloaded the below config files to ensure the remote user is added and provide connectivity to the ELK Stack.
 
 root@2bbd6b84f9ec:/etc/ansible# curl https://gist.githubusercontent.com/slape/5cc350109583af6cbe577bbcc0710c93/raw/eca603b72586fbe148c11f9c87bf96a63cb25760/Filebeat > filebeat-config.yml
   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
