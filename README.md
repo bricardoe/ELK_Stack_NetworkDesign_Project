@@ -2,41 +2,23 @@
 
 The files in this repository were used to configure the network depicted below.
 
-!images/Elk-Stack-AzureNetworkDesign.png
+![Update the path with the name of your diagram](Images/HW-13-Elk-Stack-AzureNetworkDesign.png)
 
 These files have been tested and used to generate a live ELK deployment on Azure. They can be used to either recreate the entire deployment pictured above. Alternatively, select portions of the ELK playbook file may be used to install only certain pieces of it, such as Filebeat or Metricbeat.
 
+
+This list is Ansible's inventory and is stored in the hosts text file:
+ # /etc/ansible/hosts
+ [webservers]
+ 10.0.0.4 ansible_python_interpreter=/usr/bin/python3
+ 10.0.0.5 ansible_python_interpreter=/usr/bin/python3
+ 10.0.0.6 ansible_python_interpreter=/usr/bin/python3
+
+ [elk]
+ 10.1.0.4 ansible_python_interpreter=/usr/bin/python3
+ 
   -  The below shows the output for ELK Install Playbook file:
   
-
-PLAY [Configure Elk VM with Docker] ************************************************************************************
-TASK [Gathering Facts] *************************************************************************************************
-ok: [10.1.0.4]
-
-TASK [Install docker.io] ***********************************************************************************************
-changed: [10.1.0.4]
-
-TASK [Install python3-pip] *********************************************************************************************
-changed: [10.1.0.4]
-
-TASK [Install Docker module] *******************************************************************************************
-changed: [10.1.0.4]
-
-TASK [Increase virtual memory] *****************************************************************************************
-changed: [10.1.0.4]
-
-TASK [Use more memory] *************************************************************************************************
-changed: [10.1.0.4]
-
-TASK [download and launch a docker elk container] **********************************************************************
-changed: [10.1.0.4]
-
-TASK [Enable service docker on boot] ***********************************************************************************
-ok: [10.1.0.4]
-
-PLAY RECAP *************************************************************************************************************
-10.1.0.4                   : ok=8    changed=6    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
-
 
 
 This document contains the following details:
@@ -161,7 +143,8 @@ These are the following steps of the ELK installation playbook:
 
 The following screenshot displays the result of running `docker ps` after successfully configuring the ELK instance.
 
-![Screenshot of docker ps output]images/screenshot-docker-ps.png
+![Update the path with the name of your screenshot of docker ps output](Images/screenshot-docker-ps.png.png)
+
 
 Last login: Sat Sep 18 16:17:50 2021 from 10.0.0.4
 redsysadmin@Elk-Srv-1:~$ sudo docker ps
