@@ -146,7 +146,7 @@ These are the following steps of the ELK installation playbook:
 
 The following screenshot displays the result of running `docker ps` after successfully configuring the ELK instance.
 
-![Screenshot of docker ps output](images/screenshot-docker-ps.png.png)
+![Screenshot of docker ps output](images/screenshot-docker-ps.PNG)
 
 
 Last login: Sat Sep 18 16:17:50 2021 from 10.0.0.4
