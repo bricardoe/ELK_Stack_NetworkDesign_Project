@@ -2,7 +2,7 @@
 
 The files in this repository were used to configure the network depicted below.
 
-![ELK Stack Project Network Design Diagram](ELK_Stack_NetworkDesign_Project/Images/HW-13-Elk-Stack-AzureNetworkDesign.png)
+![ELK Stack Project Network Design Diagram](/Images/Elk-Stack-AzureNetworkDesign.png)
 
 These files have been tested and used to generate a live ELK deployment on Azure. They can be used to either recreate the entire deployment pictured above. Alternatively, select portions of the ELK playbook file may be used to install only certain pieces of it, such as Filebeat or Metricbeat.
 
@@ -19,6 +19,9 @@ This list is Ansible's inventory and is stored in the hosts text file:
  
   -  The below shows the output for ELK Install Playbook file:
   
+
+
+
 
 
 This document contains the following details:
@@ -143,7 +146,7 @@ These are the following steps of the ELK installation playbook:
 
 The following screenshot displays the result of running `docker ps` after successfully configuring the ELK instance.
 
-![Screenshot of docker ps output](Images/screenshot-docker-ps.png.png)
+![Screenshot of docker ps output](/Images/screenshot-docker-ps.png.png)
 
 
 Last login: Sat Sep 18 16:17:50 2021 from 10.0.0.4
