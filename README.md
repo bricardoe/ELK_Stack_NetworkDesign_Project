@@ -8,20 +8,113 @@ These files have been tested and used to generate a live ELK deployment on Azure
 
 
 This list is Ansible's inventory and is stored in the hosts text file:
- # /etc/ansible/hosts
- [webservers]
- 10.0.0.4 ansible_python_interpreter=/usr/bin/python3
- 10.0.0.5 ansible_python_interpreter=/usr/bin/python3
- 10.0.0.6 ansible_python_interpreter=/usr/bin/python3
 
- [elk]
- 10.1.0.4 ansible_python_interpreter=/usr/bin/python3
+/etc/ansible# cat ansible.cfg
+
+# default user to use for playbooks if user is not specified
+# (/usr/bin/ansible will use current user as default)
+remote_user = redsysadmin
+
+
+/etc/ansible/host
+
+# Ex 2: A collection of hosts belonging to the 'webservers' group
+
+[webservers]
+#alpha.example.org
+#beta.example.org
+#192.168.1.100
+#192.168.1.110
+10.0.0.5 ansible_python_interpreter=/usr/bin/python3
+10.0.0.6 ansible_python_interpreter=/usr/bin/python3
+10.0.0.7 ansible_python_interpreter=/usr/bin/python3
+
+#ELK Server
+[elk]
+10.1.0.4 ansible_python_interpreter=/usr/bin/python3
+
+
+
  
-  -  The below shows the output for ELK Install Playbook file:
+  Samplep of the filebeat/metricbeat config files:
+
+
+output.elasticsearch:
+  # Boolean flag to enable or disable the output module.
+  #enabled: true
+
+  # Array of hosts to connect to.
+  # Scheme and port can be left out and will be set to the default (http and 9200)
+  # In case you specify and additional path, the scheme is required: http://localhost:9200/path
+  # IPv6 addresses should always be defined as: https://[2001:db8::1]:9200
+  hosts: ["10.1.0.4:9200"]
+  username: "elastic"
+  password: "changeme" # TODO: Change this to the password you set
   
+    
+#============================== Kibana =====================================
 
+# Starting with Beats version 6.0.0, the dashboards are loaded via the Kibana API.
+# This requires a Kibana endpoint configuration.
+setup.kibana:
+  host: "10.1.0.4:5601"
+  
+  
+ 
+ The below shows the ELK Install Playbook file:
+  
+# install_elk.yml
+---
+- name: Configure Elk VM with Docker
+  hosts: elkserver
+  remote_user: sysadmin
+  become: true
+  tasks:
+  # Use apt module
+  - name: Install docker.io
+    apt:
+      update_cache: yes
+      name: docker.io
+      state: present
 
+    # Use apt module
+  - name: Install pip3
+    apt:
+      force_apt_get: yes
+      name: python3-pip
+      state: present
 
+    # Use pip module
+  - name: Install Docker python module
+    pip:
+      name: docker
+      state: present
+
+    # Use command module
+  - name: Increase virtual memory
+    command: sysctl -w vm.max_map_count=262144
+
+     # Use sysctl module
+  - name: Use more memory
+    sysctl:
+      name: vm.max_map_count
+      value: "262144"
+      state: present
+      reload: yes
+
+    # Use docker_container module
+  - name: download and launch a docker elk container
+    docker_container:
+      name: elk
+      image: sebp/elk:761
+      state: started
+      restart_policy: always
+      published_ports:
+        - 5601:5601
+        - 9200:9200
+        - 5044:5044         
+		
+		
 
 
 This document contains the following details:
@@ -104,21 +197,21 @@ In 3-5 bullets, explain the steps of the ELK installation play. E.g., install Do
 ~~~ 
 These are the following steps of the ELK installation playbook:
 
-- 1.) The elk config file specify the host IP that will have the ELK Stack installed on and the remote username that will have access
+ 1.) The elk config file specify the host IP that will have the ELK Stack installed on and the remote username that will have access
 
 	name: Configure Elk VM with Docker
 	hosts: elk
 	remote_user: redsysadmin
 
    
-- 2.) Install the Docker, pip/pip3 and Python modules required for the ELK Container
+ 2.) Install the Docker, pip/pip3 and Python modules required for the ELK Container
   
 	- name: Install docker.io    
 	- name: Install pip3 
 	- name: Install Docker python module
 
    
-- 3.) The VM virtual memory was increased
+ 3.) The VM virtual memory was increased
 
 	- name: Increase virtual memory
     - command: sysctl -w vm.max_map_count=262144
@@ -127,7 +220,7 @@ These are the following steps of the ELK installation playbook:
       value: "262144"
      
   
-- 4.) The section downloaded and launch the docker elk container module
+ 4.) The section downloaded and launch the docker elk container module
   
   - name: download and launch a docker elk container
     docker_container:
@@ -136,7 +229,7 @@ These are the following steps of the ELK installation playbook:
       state: started
 
 
-- 5.)The below published ports were oopened for Web traffic flow:
+ 5.)The below published ports were oopened for Web traffic flow:
 
 	- 5601:5601
     - 9200:9200
