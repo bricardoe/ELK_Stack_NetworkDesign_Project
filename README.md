@@ -9,12 +9,12 @@ These files have been tested and used to generate a live ELK deployment on Azure
 
 This list is Ansible's inventory and is stored in the hosts text file:
 
+~~~
 -/etc/ansible# cat ansible.cfg
 
 -default user to use for playbooks if user is not specified
 -(/usr/bin/ansible will use current user as default)
 remote_user = redsysadmin
-
 
 -/etc/ansible/host
 
@@ -30,11 +30,11 @@ remote_user = redsysadmin
 ELK Server
 [elk]
 10.1.0.4 ansible_python_interpreter=/usr/bin/python3
-
+~~~
  
  The below shows the ELK Install Playbook file.
-  
-'install_elk.yml'
+~~~  
+<install_elk.yml>
 
 - name: Configure Elk VM with Docker
   hosts: elkserver
@@ -84,9 +84,9 @@ ELK Server
         - 5601:5601
         - 9200:9200
         - 5044:5044         
-		
-		
-		
+~~~		
+
+
 This document contains the following details:
 - Description of the Topology
 - Access Policies
